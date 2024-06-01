@@ -1,5 +1,4 @@
 import json
-import numpy as np
 
 def load_json(file_path):
     with open(file_path, 'r') as f:
@@ -40,7 +39,7 @@ def policy_iteration(states, gamma=0.9, epsilon=1e-6):
             best_action = max(action_values, key=action_values.get)
             policy[state] = best_action
             if old_action != best_action:
-                policy_stable = True
+                policy_stable = False
         return policy_stable
 
     iterations = 0
@@ -54,13 +53,16 @@ def policy_iteration(states, gamma=0.9, epsilon=1e-6):
     return V, policy, iterations
 
 def main():
-    file_path = "/mnt/data/navigator4-10-0-0.json"
+    file_path = "./json_files/navigator3-15-0-0.json"
+    # file_path = "./json_files/navigator4-10-0-0.json"
     states = load_json(file_path)
     V, policy, iterations = policy_iteration(states)
     
     print(f"Converged in {iterations} iterations")
     for state in policy:
         print(f"State {state}: {policy[state]}")
+    for value in V:
+        print(f"Value {value}: {V[value]}")
 
 if __name__ == "__main__":
     main()
