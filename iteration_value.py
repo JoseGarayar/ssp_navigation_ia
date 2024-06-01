@@ -16,12 +16,18 @@ def value_iteration(states, gamma=0.9, epsilon=1e-6):
     def get_min_action_value(state):
         min_value = float('inf')
         best_action = None
+        value_per_action = dict()
         for adj in states[state]['Adj']:
             for action, prob in adj['A'].items():
                 value = prob * (1 + gamma * V[adj['name']])
-                if value < min_value:
-                    min_value = value
-                    best_action = action
+                if not value_per_action.get(action):
+                    value_per_action[action] = value
+                else:
+                    value_per_action[action] += value
+        for action, value in value_per_action.items():
+            if value < min_value:
+                min_value = value
+                best_action = action
         return min_value, best_action
 
     iteration = 0
@@ -29,7 +35,7 @@ def value_iteration(states, gamma=0.9, epsilon=1e-6):
         delta = 0
         for state in states:
             if states[state]['goal'] or states[state]['deadend']:
-                V[state] = 0 if states[state]['goal'] else float('inf')
+                V[state] = 0
                 continue
             min_value, best_action = get_min_action_value(state)
             delta = max(delta, abs(min_value - V[state]))
@@ -76,7 +82,7 @@ def main():
     # file_path = "./json_files/navigator3-15-0-0.json"
     file_path = "./json_files/navigator4-10-0-0.json"
     states = load_json(file_path)
-    V, policy, iterations = value_iteration(states,gamma=0.9,epsilon=1e-6)
+    V, policy, iterations = value_iteration(states,gamma=1,epsilon=1e-6)
     
     print(f"Converged in {iterations} iterations")
     for state in policy:
