@@ -1,0 +1,94 @@
+{
+    "S0": {
+        "goal": false,
+        "deadend": false,
+        "Adj": [
+            {
+                "name": "S2",
+                "cost": 2,
+                "A": {
+                    "a00": 0.4
+                }
+            },
+            {
+                "name": "S1",
+                "cost": 2,
+                "A": {
+                    "a00": 0.6
+                }
+            }
+        ]
+    },
+    "S1": {
+        "goal": false,
+        "deadend": false,
+        "Adj": [
+            {
+                "name": "S2",
+                "cost": 1,
+                "A": {
+                    "a10": 1.0
+                }
+            },
+            {
+                "name": "Sg",
+                "cost": 3,
+                "A": {
+                    "a11": 1.0
+                }
+            }
+        ]
+    },
+    "S2": {
+        "goal": false,
+        "deadend": false,
+        "Adj": [
+            {
+                "name": "S1",
+                "cost": 3,
+                "A": {
+                    "a21": 1.0
+                }
+            },
+            {
+                "name": "S3",
+                "cost": 5,
+                "A": {
+                    "a20": 0.8
+                }
+            },
+            {
+                "name": "Sg",
+                "cost": 5,
+                "A": {
+                    "a20": 0.2
+                }
+            }
+        ]
+    },
+    "S3": {
+        "goal": false,
+        "deadend": false,
+        "Adj": [
+            {
+                "name": "Sg",
+                "cost": 1,
+                "A": {
+                    "a30": 1.0
+                }
+            }
+        ]
+    },
+    "Sg": {
+        "goal": true,
+        "deadend": false,
+        "Adj": [
+            {
+                "name": "S2",
+                "A": {
+                    "a11": 1.0
+                }
+            }
+        ]
+    }
+}
