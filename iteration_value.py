@@ -71,33 +71,52 @@ def value_iteration(states, gamma=0.9, epsilon=1e-6):
 
     return V, policy, iteration
 
-def plot_policy(states, policy, nx, ny, filename='policy_plot.png'):
+def plot_policy(policy, nx, ny, filename = 'policy_plot.png'):
+    # convert values into integers
+    policy = {int(key): value for key, value in policy.items()}
+    # sort policy
+    policy = dict(sorted(policy.items(), key = lambda x: x[0], reverse = False))
+
+    
+    print(policy)
+
     fig, ax = plt.subplots(figsize=(12,12))
     ax.set_xlim(0, nx)
-    ax.set_ylim(0, ny)
-    ax.set_xticks(np.arange(0, nx, 1))
-    ax.set_yticks(np.arange(0, ny, 1))
+    ax.set_ylim(0, ny + 1)
+    # set lines
+    for x in range(1, nx):
+        ax.axvline(x, color = 'black', lw = 0.3)
+
+    for y in range(1, ny + 1):
+        ax.axhline(y, color = 'black', lw = 0.3)
+
+    # hide axis
+    frame = plt.gca()
+    frame.axes.get_xaxis().set_visible(False)
+    frame.axes.get_yaxis().set_visible(False)
+
     ax.grid(True)
 
-    for state in states:
+    for state in policy:
         x = (int(state) - 1) % nx
-        y = (int(state) - 1) // nx
+        y = ny - (int(state) - 1) // nx
         action = policy[state]
         if action == 'N':
-            dx, dy = 0, 0.5
+            dx, dy = 0, 0.3
         elif action == 'S':
-            dx, dy = 0, -0.5
+            dx, dy = 0, -0.3
         elif action == 'E':
-            dx, dy = 0.5, 0
+            dx, dy = 0.3, 0
         elif action == 'W':
-            dx, dy = -0.5, 0
+            dx, dy = -0.3, 0
         else:
             dx, dy = 0, 0
-        ax.text(x,y,s=f"{x},{y}")
-        ax.arrow(x + 0.5, y + 0.5, dx, dy, head_width=0.1, head_length=0.1, fc='blue', ec='blue')
 
-    plt.gca().invert_yaxis()
+        if x < x + dx:
+            ax.text(x + 0.55, y + 0.55, s = f'{state} : {policy[state]}')
+        else:
+            ax.text(x + 0.35, y + 0.55, s = f'{state} : {policy[state]}')
+
+        ax.arrow(x + 0.5, y + 0.5, dx, dy, head_width = 0.05, head_length = 0.05, fc='lightcoral', ec = 'lightcoral')
+        
     plt.savefig(filename)
-    # plt.show(block=True)
-
-

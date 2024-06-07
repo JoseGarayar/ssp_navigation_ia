@@ -48,7 +48,7 @@ def print_values(V, policy, iterations, sort_values=True):
         print(f"State {state}: {policy[state]}, Value {value}: {V[value]}")
     print(f"Converged in {iterations} iterations")
 
-def run_and_profile(file_path, algorithm,  gamma, epsilon, description, image_generation,  image_file):
+def run_and_profile(file_path, algorithm,  gamma, epsilon, description, image_generation=False,  image_file=""):
     print(f"---Resultados {description}")
     initial_memory_usage  = memory_usage_psutil()
     initial_time = time.time()
@@ -65,7 +65,7 @@ def run_and_profile(file_path, algorithm,  gamma, epsilon, description, image_ge
         nx, ny = extract_dimensions(file_path)
         plot_policy(policy = policy, nx = nx, ny = ny, filename = image_file)
 
-    print_values(V, policy, iterations)
+    print_values(V, policy, iterations, image_generation)
     print(f"Convergence time: {tiempo_ejecucion:.2f} milisegundos")
     print(f"Memory used : {memory_used:.2f} KB")
 
