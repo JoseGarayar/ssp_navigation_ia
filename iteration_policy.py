@@ -1,9 +1,4 @@
-import json
-
-def load_json(file_path):
-    with open(file_path, 'r') as f:
-        data = json.load(f)
-    return data
+"""Algorithm for Policy Iteration"""
 
 def policy_iteration(states, gamma=0.9, epsilon=1e-6):
     V = {state: 0 for state in states}
@@ -58,17 +53,3 @@ def policy_iteration(states, gamma=0.9, epsilon=1e-6):
 
     return V, policy, iterations
 
-def main():
-    file_path = "./json_files/navigator3-15-0-0.json"
-    # file_path = "./json_files/navigator4-10-0-0.json"
-    states = load_json(file_path)
-    V, policy, iterations = policy_iteration(states, gamma=1, epsilon=1e-3)
-    
-    print(f"Converged in {iterations} iterations")
-    for state in policy:
-        print(f"State {state}: {policy[state]}")
-    for value in V:
-        print(f"Value {value}: {V[value]}")
-
-if __name__ == "__main__":
-    main()

@@ -1,13 +1,12 @@
-import json
+"""Algorithm for Value Iteration"""
+
+from utils import load_json
 import numpy as np
 # import matplotlib
 # matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
-def load_json(file_path):
-    with open(file_path, 'r') as f:
-        data = json.load(f)
-    return data
+
 
 def value_iteration(states, gamma=0.9, epsilon=1e-6):
     V = {state: 0 for state in states}
@@ -78,20 +77,3 @@ def plot_policy(states, policy, nx, ny, filename='policy_plot.png'):
     # plt.show(block=True)
 
 
-def main():
-    # file_path = "./json_files/navigator3-15-0-0.json"
-    file_path = "./json_files/navigator4-10-0-0.json"
-    states = load_json(file_path)
-    V, policy, iterations = value_iteration(states,gamma=1,epsilon=1e-6)
-    
-    print(f"Converged in {iterations} iterations")
-    for state in policy:
-        print(f"State {state}: {policy[state]}")
-    for value in V:
-        print(f"Value {value}: {V[value]}")
-
-    nx, ny = 3, 24  # Replace with actual dimensions of the grid
-    plot_policy(states, policy, nx, ny)
-
-if __name__ == "__main__":
-    main()
