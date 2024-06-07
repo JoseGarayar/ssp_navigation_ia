@@ -7,11 +7,20 @@ from iteration_policy_test import policy_iteration as policy_iteration_test
 
 
 def print_values(V, policy, iterations, sort_values=True):
+    """
+    Print the values and policies.
+
+    Args:
+        V (dict): The value function for each state.
+        policy (dict): The policy for each state.
+        iterations (int): Number of iterations performed.
+        sort_values (bool): Whether to sort the states before printing.
+    """
     if sort_values:
-        # sort V values
+        # Sort V values
         sorted_values = sorted(V.keys(), key=lambda x: int(x))
         V = {value: V[value] for value in sorted_values}
-        # sort policy states
+        # Sort policy states
         sorted_states = sorted(policy.keys(), key=lambda x: int(x))
         policy = {state: policy[state] for state in sorted_states}
     
@@ -21,6 +30,9 @@ def print_values(V, policy, iterations, sort_values=True):
 
 
 def main():
+    """
+    Main function to run the value iteration and policy iteration algorithms on given JSON files.
+    """
     file_path_test = "./json_files/test.json"
     states_test = load_json(file_path_test)
     print("---Resultados iteracion de política para test.json")

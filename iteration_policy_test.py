@@ -1,13 +1,31 @@
 """Algorithm for Policy Iteration for a test case"""
 
 def policy_iteration(states, gamma=0.9, epsilon=1e-6):
+    """
+    Perform policy iteration to find the optimal policy and value function.
+
+    Args:
+        states (dict): A dictionary where keys are state names and values are dictionaries with state information.
+        gamma (float): Discount factor for future costs.
+        epsilon (float): Small value for determining convergence of the value function.
+
+    Returns:
+        V (dict): The value function for each state.
+        policy (dict): The optimal policy for each state.
+        iterations (int): Number of iterations performed.
+    """
+    # Initialize value function for each state to 0
     V = {state: 0 for state in states}
+
+    # Initialize a random policy
     policy = {
         "S0": "a00", 
         "S1": "a10", 
         "S2": "a20", 
         "S3": "a30", 
     }
+
+    # Map to store available actions for each state
     action_per_value = dict()
     for state in states:
         actions = []
@@ -16,6 +34,16 @@ def policy_iteration(states, gamma=0.9, epsilon=1e-6):
         action_per_value[state] = list(set(actions))
 
     def get_action_value(state, action):
+        """
+        Compute the value of taking a specific action in a given state.
+
+        Args:
+            state (str): The state name.
+            action (str): The action to evaluate.
+
+        Returns:
+            float: The computed value of the action.
+        """
         value = 0
         for adj in states[state]['Adj']:
             if action in adj['A']:
@@ -24,6 +52,9 @@ def policy_iteration(states, gamma=0.9, epsilon=1e-6):
         return value
 
     def evaluate_policy():
+        """
+        Evaluate the current policy by updating the value function until convergence.
+        """
         while True:
             delta = 0
             for state in states:
@@ -36,6 +67,12 @@ def policy_iteration(states, gamma=0.9, epsilon=1e-6):
                 break
 
     def improve_policy():
+        """
+        Improve the current policy by making it greedy with respect to the current value function.
+
+        Returns:
+            bool: True if the policy is stable (no changes), False otherwise.
+        """
         policy_stable = True
         for state in states:
             if states[state]['goal'] or states[state]['deadend']:

@@ -1,6 +1,5 @@
 """Algorithm for Value Iteration"""
 
-from utils import load_json
 import numpy as np
 # import matplotlib
 # matplotlib.use('TkAgg')
@@ -9,10 +8,35 @@ import matplotlib.pyplot as plt
 
 
 def value_iteration(states, gamma=0.9, epsilon=1e-6):
+    """
+    Perform value iteration to find the optimal policy and value function.
+
+    Args:
+        states (dict): A dictionary where keys are state names and values are dictionaries with state information.
+        gamma (float): Discount factor for future costs.
+        epsilon (float): Small value for determining convergence of the value function.
+
+    Returns:
+        V (dict): The value function for each state.
+        policy (dict): The optimal policy for each state.
+        iteration (int): Number of iterations performed.
+    """
+    # Initialize value function for each state to 0
     V = {state: 0 for state in states}
+
+    # Initialize an empty policy
     policy = {state: None for state in states}
 
     def get_min_action_value(state):
+        """
+        Compute the minimum value of taking any action in a given state.
+
+        Args:
+            state (str): The state name.
+
+        Returns:
+            tuple: Minimum value and the best action.
+        """
         min_value = float('inf')
         best_action = None
         value_per_action = dict()
