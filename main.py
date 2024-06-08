@@ -3,6 +3,7 @@ from utils import load_json
 from iteration_value import value_iteration, plot_policy
 from iteration_policy import policy_iteration
 from iteration_policy_test import policy_iteration as policy_iteration_test
+from visualization import bcolors
 
 import time
 import re
@@ -38,12 +39,12 @@ def print_values(V, policy, iterations, sort_values=True):
         policy = {state: policy[state] for state in sorted_states}
 
     for state, value in zip(policy, V):
-        print(f"State {state}: {policy[state]}, Value {value}: {V[value]}")
-    print(f"Converged in {iterations} iterations")
+        print(f"{bcolors.BLUE}State {state}:{bcolors.ENDC} {bcolors.OKGREEN}{policy[state]},{bcolors.ENDC} {bcolors.BLUE}Value {value}:{bcolors.ENDC} {bcolors.OKGREEN}{V[value]:.4f}{bcolors.ENDC}")
+    print(f"{bcolors.OKCYAN}Converged in {iterations} iterations{bcolors.ENDC}")
 
 
 def run_and_profile(file_path, algorithm,  gamma, epsilon, description, image_generation=False,  image_file=""):
-    print(f"---Resultados {description}")
+    print(f"{bcolors.BOLD_WARNING}---Resultados {description}{bcolors.ENDC}")
     initial_time = time.time()
     states = load_json(file_path)
 
@@ -63,17 +64,17 @@ def run_and_profile(file_path, algorithm,  gamma, epsilon, description, image_ge
         plot_policy(policy = policy, nx = nx, ny = ny, filename = image_file)
 
     print_values(V, policy, iterations, image_generation)
-    print(f"Convergence time: {tiempo_ejecucion:.2f} milisegundos")
-    print(f"Current memory usage is {current / 10**3} KB; Peak was {peak / 10**3} KB")
+    print(f"{bcolors.RED}Convergence time: {tiempo_ejecucion:.2f} milisegundos{bcolors.ENDC}")
+    print(f"{bcolors.CYAN}Current memory usage is {current / 10**3} KB; Peak was {peak / 10**3} KB{bcolors.ENDC}\n")
 
 
 def main():
     test_cases = [
         ("./json_files/test.json", policy_iteration_test, 0.9, 1e-3, "iteracion de política para test.json",False, ""),
         ("./json_files/navigator3-15-0-0.json", value_iteration, 1, 1e-6, "iteracion de valor para navigator3-15-0-0.json", True,  "value_iteration01.png"),
-        ("./json_files/navigator3-15-0-0.json", policy_iteration, 0.9, 1e-3, "iteracion de política para navigator3-15-0-0.json",  True, "policy_ploy01.png"),
+        ("./json_files/navigator3-15-0-0.json", policy_iteration, 0.9, 1e-3, "iteracion de política para navigator3-15-0-0.json",  True, "policy_plot01.png"),
         ("./json_files/navigator4-10-0-0.json", value_iteration, 1, 1e-6, "iteracion de valor para navigator4-10-0-0.json",  True, "value_iteration02.png"),
-        ("./json_files/navigator4-10-0-0.json", policy_iteration, 0.9, 1e-3, "iteracion de política para navigator4-10-0-0.json",  True, "policy_ploy02.png"),
+        ("./json_files/navigator4-10-0-0.json", policy_iteration, 0.9, 1e-3, "iteracion de política para navigator4-10-0-0.json",  True, "policy_plot02.png"),
     ]
     for file_path, algorithm, gamma, epsilon, description,image_generation,  image_file in test_cases:    
         run_and_profile(file_path, algorithm, gamma, epsilon, description, image_generation, image_file)
