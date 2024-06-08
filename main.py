@@ -32,6 +32,8 @@ def main():
 
     file_path_1 = "./json_files/navigator3-15-0-0.json"
     states_1 = load_json(file_path_1)
+    print(states_1)
+    
     # print("---Resultados iteracion de valor para navigator3-15-0-0.json")
     # V, policy, iterations = value_iteration(states_1,gamma=1,epsilon=1e-6)
     # print_values(V, policy, iterations)
