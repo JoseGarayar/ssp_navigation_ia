@@ -1,4 +1,3 @@
-"""Algorithm for Policy Iteration"""
 
 def policy_iteration(states, gamma=0.9, epsilon=1e-6):
     """
@@ -71,6 +70,7 @@ def policy_iteration(states, gamma=0.9, epsilon=1e-6):
         policy_stable = True
         for state in states:
             if states[state]['goal'] or states[state]['deadend']:
+                policy[state] = 'goal' if states[state]['goal'] else 'deadend'
                 continue
             old_action = policy[state]
             action_values = {action: get_action_value(state, action) for action in action_per_value[state]}
