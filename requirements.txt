@@ -1,4 +1,1 @@
-numpy
 matplotlib
-tkinter
-memory_profiler
