@@ -1,4 +1,3 @@
-"""Algorithm for Policy Iteration for a test case"""
 
 def policy_iteration(states, gamma=0.9, epsilon=1e-6):
     """

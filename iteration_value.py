@@ -5,8 +5,6 @@ import numpy as np
 # matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
-
-
 def value_iteration(states, gamma=0.9, epsilon=1e-6):
     """
     Perform value iteration to find the optimal policy and value function.
@@ -59,6 +57,7 @@ def value_iteration(states, gamma=0.9, epsilon=1e-6):
         for state in states:
             if states[state]['goal'] or states[state]['deadend']:
                 V[state] = 0
+                policy[state] = 'goal' if states[state]['goal'] else 'deadend'
                 continue
             min_value, best_action = get_min_action_value(state)
             delta = max(delta, abs(min_value - V[state]))
@@ -76,9 +75,6 @@ def plot_policy(policy, nx, ny, filename = 'policy_plot.png'):
     policy = {int(key): value for key, value in policy.items()}
     # sort policy
     policy = dict(sorted(policy.items(), key = lambda x: x[0], reverse = False))
-
-    
-    print(policy)
 
     fig, ax = plt.subplots(figsize=(12,12))
     ax.set_xlim(0, nx)
@@ -98,6 +94,7 @@ def plot_policy(policy, nx, ny, filename = 'policy_plot.png'):
     ax.grid(True)
 
     for state in policy:
+
         x = (int(state) - 1) % nx
         y = ny - (int(state) - 1) // nx
         action = policy[state]
