@@ -43,7 +43,7 @@ def print_values(V, policy, iterations, sort_values=True):
     print(f"{bcolors.OKCYAN}Converged in {iterations} iterations{bcolors.ENDC}")
 
 
-def run_and_profile(file_path, algorithm,  gamma, epsilon, description, image_generation=False,  image_file=""):
+def run_and_profile(file_path, algorithm,  gamma, epsilon, description, image_generation=False, image_file="", random_values=False):
     print(f"{bcolors.BOLD_WARNING}---Resultados {description}{bcolors.ENDC}")
     initial_time = time.time()
     states = load_json(file_path)
@@ -51,7 +51,7 @@ def run_and_profile(file_path, algorithm,  gamma, epsilon, description, image_ge
     # tracemalloc starts
     tracemalloc.start()
     # Run algorithms
-    V, policy, iterations  = algorithm(states, gamma=gamma, epsilon=epsilon)
+    V, policy, iterations  = algorithm(states, gamma=gamma, epsilon=epsilon, random_values=random_values)
     # Get values and stop tracemalloc
     current, peak = tracemalloc.get_traced_memory()
     tracemalloc.stop()
@@ -80,28 +80,32 @@ def run_and_profile(file_path, algorithm,  gamma, epsilon, description, image_ge
 
 def main():
     test_cases = [
-        ("./json_files/test.json", policy_iteration_test, 0.9, 1e-3, "iteracion de política para test.json",False, ""),
-        ("./json_files/navigator3-15-0-0.json", value_iteration, 0.9, 1e-6, "Prueba 1 - iteracion de valor para navigator3-15-0-0.json", True, "value_iteration01_prueba1.png"),
-        ("./json_files/navigator3-15-0-0.json", value_iteration, 0.9, 1e-2, "Prueba 2 - iteracion de valor para navigator3-15-0-0.json", True, "value_iteration01_prueba2.png"),
-        ("./json_files/navigator3-15-0-0.json", value_iteration, 0.99, 1e-6, "Prueba 3 - iteracion de valor para navigator3-15-0-0.json", True,  "value_iteration01_prueba3.png"),
-        ("./json_files/navigator3-15-0-0.json", value_iteration, 0.1, 1e-6, "Prueba 4 - iteracion de valor para navigator3-15-0-0.json", True,  "value_iteration01_prueba4.png"),
-        ("./json_files/navigator3-15-0-0.json", policy_iteration, 0.9, 1e-6, "Prueba 1 - iteracion de política para navigator3-15-0-0.json", True, "policy_plot01_prueba1.png"),
-        ("./json_files/navigator3-15-0-0.json", policy_iteration, 0.9, 1e-2, "Prueba 2 - iteracion de política para navigator3-15-0-0.json", True, "policy_plot01_prueba2.png"),
-        ("./json_files/navigator3-15-0-0.json", policy_iteration, 0.99, 1e-6, "Prueba 3 - iteracion de política para navigator3-15-0-0.json", True, "policy_plot01_prueba3.png"),
-        ("./json_files/navigator3-15-0-0.json", policy_iteration, 0.1, 1e-6, "Prueba 4 - iteracion de política para navigator3-15-0-0.json", True, "policy_plot01_prueba4.png"),
-        ("./json_files/navigator4-10-0-0.json", value_iteration, 0.9, 1e-6, "Prueba 1 - iteracion de valor para navigator4-10-0-0.json", True, "value_iteration02_prueba1.png"),
-        ("./json_files/navigator4-10-0-0.json", value_iteration, 0.9, 1e-2, "Prueba 2 - iteracion de valor para navigator4-10-0-0.json", True, "value_iteration02_prueba2.png"),
-        ("./json_files/navigator4-10-0-0.json", value_iteration, 0.99, 1e-6, "Prueba 3 - iteracion de valor para navigator4-10-0-0.json", True, "value_iteration02_prueba3.png"),
-        ("./json_files/navigator4-10-0-0.json", value_iteration, 0.1, 1e-6, "Prueba 4 - iteracion de valor para navigator4-10-0-0.json", True, "value_iteration02_prueba4.png"),
-        ("./json_files/navigator4-10-0-0.json", policy_iteration, 0.9, 1e-6, "Prueba 1 - iteracion de política para navigator4-10-0-0.json", True, "policy_plot02_prueba1.png"),
-        ("./json_files/navigator4-10-0-0.json", policy_iteration, 0.9, 1e-2, "Prueba 2 - iteracion de política para navigator4-10-0-0.json", True, "policy_plot02_prueba2.png"),
-        ("./json_files/navigator4-10-0-0.json", policy_iteration, 0.99, 1e-6, "Prueba 3 - iteracion de política para navigator4-10-0-0.json", True, "policy_plot02_prueba3.png"),
-        ("./json_files/navigator4-10-0-0.json", policy_iteration, 0.1, 1e-6, "Prueba 4 - iteracion de política para navigator4-10-0-0.json", True, "policy_plot02_prueba4.png"),
+        ("./json_files/test.json", policy_iteration_test, 0.9, 1e-3, "iteracion de política para test.json",False, "", False),
+        ("./json_files/navigator3-15-0-0.json", value_iteration, 0.9, 1e-6, "Prueba 1 - iteracion de valor para navigator3-15-0-0.json", True, "value_iteration01_prueba1.png", False),
+        ("./json_files/navigator3-15-0-0.json", value_iteration, 0.9, 1e-2, "Prueba 2 - iteracion de valor para navigator3-15-0-0.json", True, "value_iteration01_prueba2.png", False),
+        ("./json_files/navigator3-15-0-0.json", value_iteration, 0.99, 1e-6, "Prueba 3 - iteracion de valor para navigator3-15-0-0.json", True,  "value_iteration01_prueba3.png", False),
+        ("./json_files/navigator3-15-0-0.json", value_iteration, 0.1, 1e-6, "Prueba 4 - iteracion de valor para navigator3-15-0-0.json", True,  "value_iteration01_prueba4.png", False),
+        ("./json_files/navigator3-15-0-0.json", value_iteration, 0.9, 1e-6, "Prueba 5 - iteracion de valor para navigator3-15-0-0.json", True, "value_iteration01_prueba5.png", True),
+        ("./json_files/navigator3-15-0-0.json", policy_iteration, 0.9, 1e-6, "Prueba 1 - iteracion de política para navigator3-15-0-0.json", True, "policy_plot01_prueba1.png", False),
+        ("./json_files/navigator3-15-0-0.json", policy_iteration, 0.9, 1e-2, "Prueba 2 - iteracion de política para navigator3-15-0-0.json", True, "policy_plot01_prueba2.png", False),
+        ("./json_files/navigator3-15-0-0.json", policy_iteration, 0.99, 1e-6, "Prueba 3 - iteracion de política para navigator3-15-0-0.json", True, "policy_plot01_prueba3.png", False),
+        ("./json_files/navigator3-15-0-0.json", policy_iteration, 0.1, 1e-6, "Prueba 4 - iteracion de política para navigator3-15-0-0.json", True, "policy_plot01_prueba4.png", False),
+        ("./json_files/navigator3-15-0-0.json", policy_iteration, 0.9, 1e-6, "Prueba 5 - iteracion de política para navigator3-15-0-0.json", True, "policy_plot01_prueba5.png", True),
+        ("./json_files/navigator4-10-0-0.json", value_iteration, 0.9, 1e-6, "Prueba 1 - iteracion de valor para navigator4-10-0-0.json", True, "value_iteration02_prueba1.png", False),
+        ("./json_files/navigator4-10-0-0.json", value_iteration, 0.9, 1e-2, "Prueba 2 - iteracion de valor para navigator4-10-0-0.json", True, "value_iteration02_prueba2.png", False),
+        ("./json_files/navigator4-10-0-0.json", value_iteration, 0.99, 1e-6, "Prueba 3 - iteracion de valor para navigator4-10-0-0.json", True, "value_iteration02_prueba3.png", False),
+        ("./json_files/navigator4-10-0-0.json", value_iteration, 0.1, 1e-6, "Prueba 4 - iteracion de valor para navigator4-10-0-0.json", True, "value_iteration02_prueba4.png", False),
+        ("./json_files/navigator4-10-0-0.json", value_iteration, 0.9, 1e-6, "Prueba 5 - iteracion de valor para navigator4-10-0-0.json", True, "value_iteration02_prueba5.png", True),
+        ("./json_files/navigator4-10-0-0.json", policy_iteration, 0.9, 1e-6, "Prueba 1 - iteracion de política para navigator4-10-0-0.json", True, "policy_plot02_prueba1.png", False),
+        ("./json_files/navigator4-10-0-0.json", policy_iteration, 0.9, 1e-2, "Prueba 2 - iteracion de política para navigator4-10-0-0.json", True, "policy_plot02_prueba2.png", False),
+        ("./json_files/navigator4-10-0-0.json", policy_iteration, 0.99, 1e-6, "Prueba 3 - iteracion de política para navigator4-10-0-0.json", True, "policy_plot02_prueba3.png", False),
+        ("./json_files/navigator4-10-0-0.json", policy_iteration, 0.1, 1e-6, "Prueba 4 - iteracion de política para navigator4-10-0-0.json", True, "policy_plot02_prueba4.png", False),
+        ("./json_files/navigator4-10-0-0.json", policy_iteration, 0.9, 1e-6, "Prueba 5 - iteracion de política para navigator4-10-0-0.json", True, "policy_plot02_prueba5.png", True),
     ]
     # create records
     records = list()
-    for file_path, algorithm, gamma, epsilon, description,image_generation,  image_file in test_cases:    
-        records.append(run_and_profile(file_path, algorithm, gamma, epsilon, description, image_generation, image_file))
+    for file_path, algorithm, gamma, epsilon, description,image_generation, image_file, random_values in test_cases:    
+        records.append(run_and_profile(file_path, algorithm, gamma, epsilon, description, image_generation, image_file, random_values))
 
     # refurbish records
     unique_keys = list(records[0].keys())

@@ -1,5 +1,5 @@
 
-def policy_iteration(states, gamma=0.9, epsilon=1e-6):
+def policy_iteration(states, gamma=0.9, epsilon=1e-6, random_values=False):
     """
     Perform policy iteration to find the optimal policy and value function.
 
