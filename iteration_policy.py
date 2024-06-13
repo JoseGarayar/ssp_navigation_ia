@@ -23,7 +23,7 @@ def policy_iteration(states, gamma=0.9, epsilon=1e-6, random_values=False):
         action_per_value[state] = list(set(actions))
     
     # Initialize value function for each state to 0
-    V = {state: 0 for state in states}
+    V = {state: random.randint(1, 100) if random_values else 0 for state in states}
 
     # Initialize a policy with an arbitrary action 'N' for each state
     policy = {state: random.choice(action_per_value[state]) if random_values else 'N' for state in states}    
