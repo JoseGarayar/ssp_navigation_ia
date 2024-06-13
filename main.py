@@ -71,10 +71,22 @@ def run_and_profile(file_path, algorithm,  gamma, epsilon, description, image_ge
 def main():
     test_cases = [
         ("./json_files/test.json", policy_iteration_test, 0.9, 1e-3, "iteracion de política para test.json",False, ""),
-        ("./json_files/navigator3-15-0-0.json", value_iteration, 1, 1e-6, "iteracion de valor para navigator3-15-0-0.json", True,  "value_iteration01.png"),
-        ("./json_files/navigator3-15-0-0.json", policy_iteration, 0.9, 1e-3, "iteracion de política para navigator3-15-0-0.json",  True, "policy_plot01.png"),
-        ("./json_files/navigator4-10-0-0.json", value_iteration, 1, 1e-6, "iteracion de valor para navigator4-10-0-0.json",  True, "value_iteration02.png"),
-        ("./json_files/navigator4-10-0-0.json", policy_iteration, 0.9, 1e-3, "iteracion de política para navigator4-10-0-0.json",  True, "policy_plot02.png"),
+        ("./json_files/navigator3-15-0-0.json", value_iteration, 0.9, 1e-6, "Prueba 1 - iteracion de valor para navigator3-15-0-0.json", True, "value_iteration01_prueba1.png"),
+        ("./json_files/navigator3-15-0-0.json", value_iteration, 0.9, 1e-2, "Prueba 2 - iteracion de valor para navigator3-15-0-0.json", True, "value_iteration01_prueba2.png"),
+        ("./json_files/navigator3-15-0-0.json", value_iteration, 0.99, 1e-6, "Prueba 3 - iteracion de valor para navigator3-15-0-0.json", True,  "value_iteration01_prueba3.png"),
+        ("./json_files/navigator3-15-0-0.json", value_iteration, 0.1, 1e-6, "Prueba 4 - iteracion de valor para navigator3-15-0-0.json", True,  "value_iteration01_prueba4.png"),
+        ("./json_files/navigator3-15-0-0.json", policy_iteration, 0.9, 1e-6, "Prueba 1 - iteracion de política para navigator3-15-0-0.json", True, "policy_plot01_prueba1.png"),
+        ("./json_files/navigator3-15-0-0.json", policy_iteration, 0.9, 1e-2, "Prueba 2 - iteracion de política para navigator3-15-0-0.json", True, "policy_plot01_prueba2.png"),
+        ("./json_files/navigator3-15-0-0.json", policy_iteration, 0.99, 1e-6, "Prueba 3 - iteracion de política para navigator3-15-0-0.json", True, "policy_plot01_prueba3.png"),
+        ("./json_files/navigator3-15-0-0.json", policy_iteration, 0.1, 1e-6, "Prueba 4 - iteracion de política para navigator3-15-0-0.json", True, "policy_plot01_prueba4.png"),
+        ("./json_files/navigator4-10-0-0.json", value_iteration, 0.9, 1e-6, "Prueba 1 - iteracion de valor para navigator4-10-0-0.json", True, "value_iteration02_prueba1.png"),
+        ("./json_files/navigator4-10-0-0.json", value_iteration, 0.9, 1e-2, "Prueba 2 - iteracion de valor para navigator4-10-0-0.json", True, "value_iteration02_prueba2.png"),
+        ("./json_files/navigator4-10-0-0.json", value_iteration, 0.99, 1e-6, "Prueba 3 - iteracion de valor para navigator4-10-0-0.json", True, "value_iteration02_prueba3.png"),
+        ("./json_files/navigator4-10-0-0.json", value_iteration, 0.1, 1e-6, "Prueba 4 - iteracion de valor para navigator4-10-0-0.json", True, "value_iteration02_prueba4.png"),
+        ("./json_files/navigator4-10-0-0.json", policy_iteration, 0.9, 1e-6, "Prueba 1 - iteracion de política para navigator4-10-0-0.json", True, "policy_plot02_prueba1.png"),
+        ("./json_files/navigator4-10-0-0.json", policy_iteration, 0.9, 1e-2, "Prueba 2 - iteracion de política para navigator4-10-0-0.json", True, "policy_plot02_prueba2.png"),
+        ("./json_files/navigator4-10-0-0.json", policy_iteration, 0.99, 1e-6, "Prueba 3 - iteracion de política para navigator4-10-0-0.json", True, "policy_plot02_prueba3.png"),
+        ("./json_files/navigator4-10-0-0.json", policy_iteration, 0.1, 1e-6, "Prueba 4 - iteracion de política para navigator4-10-0-0.json", True, "policy_plot02_prueba4.png"),
     ]
     for file_path, algorithm, gamma, epsilon, description,image_generation,  image_file in test_cases:    
         run_and_profile(file_path, algorithm, gamma, epsilon, description, image_generation, image_file)

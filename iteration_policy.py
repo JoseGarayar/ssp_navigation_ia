@@ -52,7 +52,7 @@ def policy_iteration(states, gamma=0.9, epsilon=1e-6):
         while True:
             delta = 0
             for state in states:
-                if states[state]['goal'] or states[state]['deadend']:
+                if states[state]['goal']:
                     continue
                 v = V[state]
                 V[state] = get_action_value(state, policy[state])
@@ -69,8 +69,11 @@ def policy_iteration(states, gamma=0.9, epsilon=1e-6):
         """
         policy_stable = True
         for state in states:
-            if states[state]['goal'] or states[state]['deadend']:
-                policy[state] = 'goal' if states[state]['goal'] else 'deadend'
+            # if states[state]['goal'] or states[state]['deadend']:
+            #     policy[state] = 'goal' if states[state]['goal'] else 'deadend'
+            #     continue
+            if states[state]['goal']:
+                policy[state] = 'goal'
                 continue
             old_action = policy[state]
             action_values = {action: get_action_value(state, action) for action in action_per_value[state]}
@@ -88,5 +91,9 @@ def policy_iteration(states, gamma=0.9, epsilon=1e-6):
         if policy_stable:
             break
 
+    for state in states:
+        if states[state]['deadend']:
+            policy[state] = 'deadend'
+    
     return V, policy, iterations
 

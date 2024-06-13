@@ -52,9 +52,13 @@ def value_iteration(states, gamma=0.9, epsilon=1e-6):
     while True:
         delta = 0
         for state in states:
-            if states[state]['goal'] or states[state]['deadend']:
+            # if states[state]['goal'] or states[state]['deadend']:
+            #     V[state] = 0
+            #     policy[state] = 'goal' if states[state]['goal'] else 'deadend'
+            #     continue
+            if states[state]['goal']:
                 V[state] = 0
-                policy[state] = 'goal' if states[state]['goal'] else 'deadend'
+                policy[state] = 'goal'
                 continue
             min_value, best_action = get_min_action_value(state)
             delta = max(delta, abs(min_value - V[state]))
@@ -64,6 +68,10 @@ def value_iteration(states, gamma=0.9, epsilon=1e-6):
         iteration += 1
         if delta < epsilon:
             break
+
+    for state in states:
+        if states[state]['deadend']:
+            policy[state] = 'deadend'
 
     return V, policy, iteration
 
