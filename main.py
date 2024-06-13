@@ -8,7 +8,7 @@ from visualization import bcolors
 import time
 import re
 import tracemalloc
-
+import csv
 
 def extract_dimensions(filename):
     match = re.search(r'navigator(\d+)-(\d+)-\d+-\d+\.json', filename)
@@ -67,6 +67,16 @@ def run_and_profile(file_path, algorithm,  gamma, epsilon, description, image_ge
     print(f"{bcolors.RED}Convergence time: {tiempo_ejecucion:.2f} milisegundos{bcolors.ENDC}")
     print(f"{bcolors.CYAN}Current memory usage is {current / 10**3} KB; Peak was {peak / 10**3} KB{bcolors.ENDC}\n")
 
+    results = {"algorithm": algorithm.__name__,
+               "file_path": file_path,
+               "gamma": gamma,
+               "epsilon" : epsilon,
+               "iterations": iterations,
+               "tiempo_ejecucion": tiempo_ejecucion,
+               "memory_current_kb": current / 10**3,
+               "memory_peak_kb": peak / 10**3}
+
+    return results
 
 def main():
     test_cases = [
@@ -88,8 +98,83 @@ def main():
         ("./json_files/navigator4-10-0-0.json", policy_iteration, 0.99, 1e-6, "Prueba 3 - iteracion de política para navigator4-10-0-0.json", True, "policy_plot02_prueba3.png"),
         ("./json_files/navigator4-10-0-0.json", policy_iteration, 0.1, 1e-6, "Prueba 4 - iteracion de política para navigator4-10-0-0.json", True, "policy_plot02_prueba4.png"),
     ]
+    # create records
+    records = list()
     for file_path, algorithm, gamma, epsilon, description,image_generation,  image_file in test_cases:    
-        run_and_profile(file_path, algorithm, gamma, epsilon, description, image_generation, image_file)
+        records.append(run_and_profile(file_path, algorithm, gamma, epsilon, description, image_generation, image_file))
+
+    # refurbish records
+    unique_keys = list(records[0].keys())
+
+    # consolidate records
+    data = dict()
+    for key in unique_keys:
+        data[key] = [record[key] for record in records]
+
+    # print result
+    # declare headers
+    headers = {'algorithm': 'Algorithm',
+               'file_path': 'File Path',
+               'gamma': 'Gamma',
+               'epsilon': 'Epsilon',
+               'iterations': 'Iterations',
+               'tiempo_ejecucion': 'Tiempo Ejecucion (ms)',
+               'memory_current_kb': 'Memory Current (KB)',
+               'memory_peak_kb': 'Memory Peak (KB)'}
+
+    # find max length characters
+    max_lengths = [max(len(header_title), max(len(str(data[header][i])) for i in range(len(data[header])))) for header, header_title in headers.items()]
+
+    # function to plot each row
+    def print_row(row, align='left'):
+        formatted_row = [str(item).ljust(max_lengths[i]) if type(item) in [str, int] or i == 3 else str(round(float(item), 3)).ljust(max_lengths[i])
+                        for i, item in enumerate(row)]
+        
+        print("| " + " | ".join(formatted_row) + " |")
+
+    # print table
+    print_row(list(headers.values()))
+    print("-" * (sum(max_lengths) + len(headers) * 3 + 1))
+
+    for i in range(len(data['algorithm'])):
+        row = [
+            data['algorithm'][i],
+            data['file_path'][i],
+            data['gamma'][i],
+            data['epsilon'][i],
+            data['iterations'][i],
+            data['tiempo_ejecucion'][i],
+            data['memory_current_kb'][i],
+            data['memory_peak_kb'][i]
+        ]
+        print_row(row)
+
+    # store data into a pandas dataframe
+   # Crear el diccionario de mapeo
+    header_mapping = headers.copy()
+
+    # Crear un archivo CSV
+    with open('data_output.csv', mode='w', newline='') as file:
+        writer = csv.writer(file)
+
+        # Escribir los encabezados amigables
+        writer.writerow([header_mapping[header] for header in headers])
+
+        # Escribir las filas de datos
+        for i in range(len(data['algorithm'])):
+            row = [
+                data['algorithm'][i],
+                data['file_path'][i],
+                data['gamma'][i],
+                data['epsilon'][i],
+                data['iterations'][i],
+                data['tiempo_ejecucion'][i],
+                data['memory_current_kb'][i],
+                data['memory_peak_kb'][i]
+            ]
+            writer.writerow(row)
+
+    print(f"{bcolors.BOLD_OKGREEN}Archivo CSV creado con éxito: data_output.csv{bcolors.ENDC}")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,18 @@
+Algorithm,File Path,Gamma,Epsilon,Iterations,Tiempo Ejecucion (ms),Memory Current (KB),Memory Peak (KB)
+policy_iteration,./json_files/test.json,0.9,0.001,3,0.4317760467529297,3.432,4.592
+value_iteration,./json_files/navigator3-15-0-0.json,0.9,1e-06,133,52.881479263305664,12.632,13.192
+value_iteration,./json_files/navigator3-15-0-0.json,0.9,0.01,45,31.000137329101562,10.576,11.136
+value_iteration,./json_files/navigator3-15-0-0.json,0.99,1e-06,1376,538.7845039367676,10.604,11.164
+value_iteration,./json_files/navigator3-15-0-0.json,0.1,1e-06,8,2.996683120727539,10.576,11.136
+policy_iteration,./json_files/navigator3-15-0-0.json,0.9,1e-06,8,24.4905948638916,8.936,13.712
+policy_iteration,./json_files/navigator3-15-0-0.json,0.9,0.01,8,13.962745666503906,8.376,13.152
+policy_iteration,./json_files/navigator3-15-0-0.json,0.99,1e-06,9,231.42027854919434,8.376,13.152
+policy_iteration,./json_files/navigator3-15-0-0.json,0.1,1e-06,14,14.201879501342773,8.376,13.152
+value_iteration,./json_files/navigator4-10-0-0.json,0.9,1e-06,133,44.84963417053223,8.264,8.824
+value_iteration,./json_files/navigator4-10-0-0.json,0.9,0.01,45,50.791025161743164,8.264,8.824
+value_iteration,./json_files/navigator4-10-0-0.json,0.99,1e-06,1376,666.42165184021,8.292,8.852
+value_iteration,./json_files/navigator4-10-0-0.json,0.1,1e-06,7,2.58636474609375,8.264,8.824
+policy_iteration,./json_files/navigator4-10-0-0.json,0.9,1e-06,7,38.38682174682617,5.784,9.304
+policy_iteration,./json_files/navigator4-10-0-0.json,0.9,0.01,7,15.645027160644531,5.784,9.304
+policy_iteration,./json_files/navigator4-10-0-0.json,0.99,1e-06,10,224.78985786437988,5.784,9.304
+policy_iteration,./json_files/navigator4-10-0-0.json,0.1,1e-06,8,17.699003219604492,5.784,9.304
