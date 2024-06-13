@@ -3,7 +3,7 @@
 import matplotlib.pyplot as plt
 import random
 
-def value_iteration(states, gamma=0.9, epsilon=1e-6, random_values=False):
+def value_iteration(states, gamma=0.9, epsilon=1e-6, random_values=False, seed=42):
     """
     Perform value iteration to find the optimal policy and value function.
 
@@ -18,6 +18,7 @@ def value_iteration(states, gamma=0.9, epsilon=1e-6, random_values=False):
         iteration (int): Number of iterations performed.
     """
     # Initialize value function for each state to 0
+    random.seed(seed)
     V = {state: random.randint(1, 100) if random_values else 0 for state in states}
 
     # Initialize an empty policy

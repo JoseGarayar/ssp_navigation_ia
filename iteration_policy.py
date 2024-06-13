@@ -1,6 +1,6 @@
 import random
 
-def policy_iteration(states, gamma=0.9, epsilon=1e-6, random_values=False):
+def policy_iteration(states, gamma=0.9, epsilon=1e-6, random_values=False, seed=42):
     """
     Perform policy iteration to find the optimal policy and value function.
 
@@ -23,9 +23,10 @@ def policy_iteration(states, gamma=0.9, epsilon=1e-6, random_values=False):
         action_per_value[state] = list(set(actions))
     
     # Initialize value function for each state to 0
-    V = {state: random.randint(1, 100) if random_values else 0 for state in states}
+    random.seed(seed)
+    V = {state: random.randint(1, 10) if random_values else 0 for state in states}
 
-    # Initialize a policy with an arbitrary action 'N' for each state
+    # Initialize a policy with an arbitrary action 'N' for each state or a random value in ['N', 'S', 'W', 'E']
     policy = {state: random.choice(action_per_value[state]) if random_values else 'N' for state in states}    
 
     def get_action_value(state, action):
