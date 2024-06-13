@@ -20,7 +20,15 @@ This repository contains implementations of Policy Iteration and Value Iteration
 
 2. Ensure you have Python installed (preferably 3.11 or above).
 
-3. Run the main script:
+3. Create a virtual environment 
+   ```sh
+   python3 -m venv .venv
+
+4. Activate virtual environment (in Ubuntu)
+   ```sh
+   source .venv/bin/activate
+
+5. Run the main script:
    ```sh
    python3 main.py
 
